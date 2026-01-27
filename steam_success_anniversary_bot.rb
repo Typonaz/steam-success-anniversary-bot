@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV['DISCORDRB_NONACL'] = '1' # To remove a warning from the discordrb gem
+
 require 'rubygems'
 require 'bundler/setup'
 
@@ -8,7 +10,7 @@ require 'steam-api'
 require 'tzinfo'
 
 def fetch_game_ids
-  Steam::Player.owned_games(@user_id)['games'].map { it['appid'] }
+  Steam::Player.owned_games(@user_id, params: { include_played_free_games: 1 })['games'].map { it['appid'] }
 end
 
 def completed_games(game_ids)
